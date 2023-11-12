@@ -5,7 +5,7 @@ import App from './App.vue';
 import router from './router';
 
 import { options, Quasar } from '@/plugins/quasar';
-import './assets/scss/main.scss';
+import './assets/main.scss';
 
 const app = createApp(App);
 
