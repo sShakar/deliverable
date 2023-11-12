@@ -1,4 +1,5 @@
-const TOKEN_KEY = 'shakar7859xd';
+const TOKEN_KEY = '';
+sessionStorage.setItem(TOKEN_KEY, 'shakar7859xd');
 
 /**
  * @description get token form sessionStorage
