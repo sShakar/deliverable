@@ -12,7 +12,7 @@ function createFormData({ name, phone, isOpen, image }: IResort) {
 	if (image instanceof File) {
 		formData.append('image', image, image.name);
 	} else if (typeof image === 'string') {
-		const imageUrlWithStorage = new URL('/storage/', image).href;
+		const imageUrlWithStorage = `${import.meta.env.VITE_DEFAULT_BASE_URL}storage/${image}`;
 		formData.append('image', imageUrlWithStorage);
 	} else {
 		throw new Error('Image must be a File object or a URL string.');
