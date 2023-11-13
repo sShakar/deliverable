@@ -7,6 +7,7 @@
 		:rows="rows"
 		:columns="columns"
 		row-key="name"
+		:loading="isLoading"
 		:dense="$q.screen.lt.md"
 		flat
 		bordered
@@ -82,6 +83,7 @@ import UpdateResort from '@/components/Resort/UpdateResort.vue';
 
 const { notify } = useQuasar();
 const baseURL = ref<string>(import.meta.env.VITE_DEFAULT_BASE_URL);
+const isLoading = ref<boolean>(false);
 
 const paginationState = ref<NonNullable<QTableProps['pagination']>>({
 	sortBy: 'name',
@@ -177,11 +179,14 @@ async function fetchRecords(page: string): Promise<void> {
 	}
 
 	try {
+		isLoading.value = true;
 		const data = await $api.get<IResponse>(`${pageURL}`);
 		response.value = data;
 		rows.value = data.data;
 	} catch (error) {
 		notify({ message: `${error.message}`, type: 'negative' });
+	} finally {
+		isLoading.value = false;
 	}
 }
 
