@@ -1,9 +1,11 @@
 <template>
-	<q-dialog :model-value="isOpen" transition-show="slide-up" transition-hide="slide-down" square @hide="$emit('close')">
+	<q-btn class="q-mr-sm" color="warning" icon="mdi-circle-edit-outline" flat round @click="isOpen = true" />
+
+	<q-dialog v-model="isOpen" transition-show="slide-up" transition-hide="slide-down" square @hide="isOpen = false">
 		<q-card class="modal">
 			<q-toolbar class="bg-secondary" style="color: white">
-				<q-toolbar-title>Add Resort</q-toolbar-title>
-				<q-btn icon="mdi-close" flat round dense @click="$emit('close')" />
+				<q-toolbar-title>Update Resort</q-toolbar-title>
+				<q-btn icon="mdi-close" flat round dense @click="isOpen = false" />
 			</q-toolbar>
 
 			<q-card-section>
@@ -37,7 +39,6 @@
 					/>
 					<q-file
 						v-model:model-value="formFields.image"
-						@update:model-value="formFields.image"
 						class="col"
 						:disable="isLoading"
 						label="Image"
@@ -47,7 +48,7 @@
 
 					<q-btn
 						class="q-mt-md"
-						label="Add"
+						label="Update"
 						:loading="isLoading"
 						color="secondary"
 						icon="mdi-view-grid-plus"
@@ -59,33 +60,37 @@
 
 				<q-separator v-if="formFields.image" spaced="xl" />
 
-				<q-img v-if="formFields.image" :src="String(formFields.image)" width="300px" />
+				<div class="">
+					<div class="text-subtitle1">Current Image</div>
+					<q-img alt="image" v-if="formFields.image" :src="`${baseURL}storage/${updateResort.image}`" width="300px" />
+				</div>
 			</q-card-section>
 		</q-card>
 	</q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useQuasar } from 'quasar';
 import type { IResort } from '@/types/resortType';
 import $api from '@/services/apiService';
 
 const props = defineProps<{
-	isOpen: boolean;
 	updateResort: IResort;
 }>();
 
-const emits = defineEmits(['add-resort', 'close']);
+const emits = defineEmits(['update-resort']);
 
 const { notify } = useQuasar();
+const baseURL = ref<string>(import.meta.env.VITE_DEFAULT_BASE_URL);
 const isLoading = ref<boolean>(false);
+const isOpen = ref<boolean>(false);
 
-const formFields = ref<IResort>({
-	name: '',
-	phone: '',
-	isOpen: true,
-	image: null
+const formFields = reactive<IResort>({
+	name: props.updateResort.name || '',
+	phone: props.updateResort.phone || '',
+	isOpen: (props.updateResort.isOpen == '1' ? 'Open' : 'Close') || true,
+	image: props.updateResort.image || null
 });
 
 const options = ref<{ label: string; value: boolean }[]>([
@@ -96,23 +101,16 @@ const options = ref<{ label: string; value: boolean }[]>([
 async function onSubmit() {
 	try {
 		isLoading.value = true;
-		const response = await $api.post<IResort, any>('resorts', formFields.value);
+		await $api.update<IResort, any>(`resorts/${props.updateResort.id}`, formFields);
 
-		notify({ message: `Resort ${formFields.value.name} added successfully`, type: 'positive' });
-		emits('add-resort', response.data.data);
-		emits('close');
-		isLoading.value = false;
+		notify({ message: `Resort ${formFields.name} updated successfully`, type: 'positive' });
+		emits('update-resort');
 	} catch (error) {
 		notify({ message: `Something went wrong`, type: 'negative' });
+	} finally {
+		isLoading.value = false;
+		isOpen.value = false;
 	}
-}
-
-console.log('update', props.updateResort);
-if (props.updateResort) {
-	formFields.value.name = props.updateResort.name;
-	formFields.value.phone = props.updateResort.phone;
-	formFields.value.isOpen = props.updateResort.isOpen;
-	formFields.value.image = props.updateResort.image;
 }
 </script>
 

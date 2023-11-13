@@ -1,5 +1,16 @@
 import type { IResort } from '@/types/resortType';
 
+export interface IPostResponse {
+	name: string | null;
+	phone: string | null;
+	isOpen: string | null;
+	image: string | null;
+	token: string | null;
+	updated_at: string | null;
+	created_at: string | null;
+	id: number | null;
+}
+
 export interface IResponse {
 	current_page: number | null;
 	data: IResort[];
