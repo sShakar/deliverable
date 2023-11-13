@@ -9,19 +9,19 @@ export const useSliderStore = defineStore('SliderStore', {
 		slides: [
 			{
 				name: 'image1',
-				image: './src/assets/images/image1.jpg'
+				image: '/image1.jpg'
 			},
 			{
 				name: 'image2',
-				image: './src/assets/images/image2.jpg'
+				image: '/image2.jpg'
 			},
 			{
 				name: 'image3',
-				image: './src/assets/images/image3.jpg'
+				image: '/image3.jpg'
 			},
 			{
 				name: 'image4',
-				image: './src/assets/images/image4.jpg'
+				image: '/image4.jpg'
 			}
 		]
 	}),
