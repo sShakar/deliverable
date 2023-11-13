@@ -101,12 +101,20 @@ async function onSubmit() {
 
 		notify({ message: `Resort ${formFields.name} added successfully`, type: 'positive' });
 		emits('add-resort');
+		onReset();
 	} catch (error) {
 		notify({ message: `Something went wrong`, type: 'negative' });
 	} finally {
 		isLoading.value = false;
 		isOpen.value = false;
 	}
+}
+
+function onReset() {
+	formFields.name = '';
+	formFields.phone = '';
+	formFields.isOpen = true;
+	formFields.image = null;
 }
 </script>
 
