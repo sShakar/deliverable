@@ -103,7 +103,7 @@ async function onSubmit() {
 		emits('add-resort');
 		onReset();
 	} catch (error) {
-		notify({ message: `Something went wrong`, type: 'negative' });
+		notify({ message: `${error.message}`, type: 'negative' });
 	} finally {
 		isLoading.value = false;
 		isOpen.value = false;

@@ -106,7 +106,7 @@ async function onSubmit() {
 		notify({ message: `Resort ${formFields.name} updated successfully`, type: 'positive' });
 		emits('update-resort');
 	} catch (error) {
-		notify({ message: `Something went wrong`, type: 'negative' });
+		notify({ message: `${error.message}`, type: 'negative' });
 	} finally {
 		isLoading.value = false;
 		isOpen.value = false;

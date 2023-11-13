@@ -94,7 +94,7 @@ async function fetchRecords(): Promise<void> {
 		const response = await $api.get<IResponse>('resorts');
 		rows.value = response.data;
 	} catch (error) {
-		notify({ message: `Something went wrong`, type: 'negative' });
+		notify({ message: `${error.message}`, type: 'negative' });
 	}
 }
 
