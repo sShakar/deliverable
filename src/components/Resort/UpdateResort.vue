@@ -51,7 +51,7 @@
 						label="Update"
 						:loading="isLoading"
 						color="secondary"
-						icon="mdi-view-grid-plus"
+						icon="mdi-circle-edit-outline"
 						type="submit"
 						no-caps
 						unelevated
@@ -117,5 +117,9 @@ async function onSubmit() {
 <style lang="scss" scoped>
 .modal {
 	width: 40%;
+
+	@media (max-width: 768px) {
+		width: 90%;
+	}
 }
 </style>

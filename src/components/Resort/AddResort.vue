@@ -23,6 +23,7 @@
 						:disable="isLoading"
 						label="Name"
 						color="secondary"
+						:dense="$q.screen.lt.md"
 						outlined
 					/>
 					<q-input
@@ -31,6 +32,7 @@
 						:disable="isLoading"
 						label="Phone Number"
 						color="secondary"
+						:dense="$q.screen.lt.md"
 						outlined
 					/>
 					<q-select
@@ -40,6 +42,7 @@
 						color="secondary"
 						:disable="isLoading"
 						:options="options"
+						:dense="$q.screen.lt.md"
 						emit-value
 						map-options
 						outlined
@@ -50,6 +53,7 @@
 						:disable="isLoading"
 						label="Image"
 						color="secondary"
+						:dense="$q.screen.lt.md"
 						outlined
 					/>
 
@@ -121,5 +125,9 @@ function onReset() {
 <style lang="scss" scoped>
 .modal {
 	width: 40%;
+
+	@media (max-width: 768px) {
+		width: 90%;
+	}
 }
 </style>
